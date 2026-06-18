@@ -17,11 +17,11 @@ A portable **Agent Skill** named after the *onverwachtse schriftelijke overhorin
 
 Run it after your agent builds something. It:
 
-1. **Scopes itself** to this session's work — or your current branch's diff.
-2. **Asks one question at a time**, easy → hard, mostly *"why X over Y?"*
-3. **Grades you honestly**, then reveals the rejected alternatives and the tradeoff that decided it.
-4. **Ends with a scorecard**: strengths, gaps, and the tradeoffs worth remembering.
-5. **Offers to save** the takeaways (only if you say yes) so the lessons stick across sessions.
+1. **Scopes itself** to this session's work, a topic you name, or your current branch's diff.
+2. **Asks one question at a time**, adapting to how you do — mostly *"why X over Y?"*, with transfer ("what if…") and "predict what breaks" twists.
+3. **Grades the answer honestly** (never *you*), makes you reach for the reasoning, then reveals the rejected alternatives and the tradeoff that decided it.
+4. **Ends with a scorecard**: what to remember, gaps to revisit, and your strengths.
+5. **Offers to save** the takeaways (only if you say yes) as re-testable notes, so the lessons stick across sessions.
 
 Runs in your chat language — Dutch for an *echte SO*, or anything else.
 

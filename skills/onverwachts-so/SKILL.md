@@ -1,124 +1,104 @@
 ---
 name: onverwachts-so
-description: Use when the user wants to be quizzed, tested, or "overhoord" on code that was just implemented for them — to check they genuinely understand the concepts, terms, and design tradeoffs of the current session's work or the current git branch. Triggers include "quiz me", "overhoor me", "test my understanding", "do I actually get this", "pop quiz on what you built".
+description: Use when the user wants to be quizzed, tested, or "overhoord" on work that was just built for them. Triggers include "quiz me", "overhoor me", "test my understanding", "give me an SO", "do I actually get this", "pop quiz on what you built", "test me on this branch". Not for explaining or re-teaching the work — only when they want to be tested on it.
 ---
 
 # Onverwachts SO (Surprise Pop Quiz)
 
 ## Overview
 
-After an agent implements something, this skill flips the roles: **the agent springs a surprise oral exam on the user** about the work that was just built — the concepts, the terms, and above all the design tradeoffs behind each decision. Named after the dreaded Dutch high-school *onverwachtse schriftelijke overhoring* (SO): the surprise test the teacher gives to find out who actually did the reading.
+After an agent implements something, this skill flips the roles: **the agent springs an oral exam on the user** about the work just built — the concepts, the terms, and above all the design tradeoffs behind each decision. Named after the dreaded Dutch *onverwachtse schriftelijke overhoring* (SO). The user asked for it, so the surprise isn't *that* there's an exam — it's **which decisions get probed, and how deep the "why" goes**.
 
-**Core principle:** You don't understand a decision until you can explain why the rejected alternatives are worse. The quiz targets the **why**, not just the **what** — so the user learns the tradeoffs and makes better calls next time.
+**Core principle:** You don't understand a decision until you can explain why the rejected alternatives are worse. Target the **why**, not the **what** — and grade the *answer*, never the person. The goal is sharper calls next time, not a humbling.
 
-## When to Use
+## When to use
 
-- The user asks to be quizzed / tested / "overhoord" on what was just built.
-- After implementing a non-trivial feature, to cement understanding before moving on.
-- The user wants to learn the tradeoffs behind the choices so future decisions improve.
+The user asks to be quizzed/tested on work that was just built. **Not** when they want it *explained* — that's a walkthrough, not an exam. For trivial/mechanical work (renames, formatting, version bumps) there's little to learn; if the user insists anyway, don't refuse or pad a typo into a fake exam — say there's not much decision-content here and offer to quiz the one judgment call, the surrounding code, or skip it.
 
-**When NOT to use:**
-- Trivial or mechanical changes (renames, formatting, version bumps) — nothing to learn.
-- The user wants the work *explained*, not *tested* → just explain it; don't quiz.
+## Non-negotiables
+
+Every run must (1) make the user **reason about at least one rejected alternative**, and (2) **grade honestly** — at least one "partial/missed" when an answer earns it. If you can't name a single alternative you rejected for this work, you're quizzing on too little: widen scope before asking — never fall back to pure recall.
 
 ## Workflow
 
-### 1. Gather the material — silently, before you ask anything
+### 1. Gather the material — silently, before you ask
 
-The quiz is only as good as what you pull together first. Work these sources **richest-first**:
+**Honor an explicit focus first.** If the user named a topic or file ("quiz me on the caching layer"), *that* is the scope — even if other areas are richer. If it wasn't touched this session, say so and ask whether to quiz it from the code as-is or take the actual changes.
 
-**A. This conversation — your richest source.** You built it, so you remember not just *what* shipped but *what you rejected and why*. The diff only shows the code that survived; the alternatives you weighed and the tradeoffs you accepted live only here. Recall, from this session:
-- Each non-trivial decision and the options you compared.
-- Libraries, algorithms, and patterns you chose — **and the ones you considered and dropped**.
-- Anything you called a tradeoff, risk, assumption, or "we could also…".
+Otherwise gather richest-first:
+- **A — This session (if you built it).** You remember not just what shipped but **what you rejected and why**; the diff only shows surviving code. Recall each decision, the options you compared, and anything you flagged as a tradeoff or risk. *Fresh session / someone else's branch?* You have no such memory — say so, skip A, and build from B/C. Don't fabricate "alternatives we rejected" you have no record of.
+- **B — Git, for scope and exact facts** (*memory is for the why; the code is the truth for the what*). Find the base defensively: `git merge-base HEAD main`, else `master`, else `git symbolic-ref refs/remotes/origin/HEAD`; then `git diff <base>..HEAD` and `git log <base>..HEAD --oneline`. No base resolves? Use uncommitted work (`git diff HEAD`, `--staged`). No repo at all? Rely on the conversation.
+- **C — Rationale already written down**: why-comments, ADRs, design docs, linked PRs/issues.
 
-**B. The git changes — for scope, for exact facts, and for work not in this session.** Use the branch to bound the quiz, to verify specifics (exact values, names, signatures — *memory is for the why, the code is the source of truth for the what*), and to reconstruct when the conversation is thin (fresh session, someone else's branch):
-```bash
-git merge-base HEAD main          # find <base> (try main/master)
-git diff --stat <base>..HEAD      # what changed, and how much
-git log  <base>..HEAD --oneline   # the story, in commit messages
-git diff <base>..HEAD             # the actual change
-```
-Read the changed files where the diff alone doesn't explain the choice. Mine commit messages and any linked PR/issue for stated rationale.
+Stop once you have **5–8 decisions with a known why** — don't read the whole branch. Spanning several unrelated changes? Drop the mechanical ones and **tell the user which areas you picked and skipped**. If both the conversation and git are empty, don't invent a quiz — say there's nothing to test and ask them to point you at it.
 
-**C. Rationale already written down.** `why`-comments, ADRs, design docs, TODOs — each is a decision record; turn it into a question.
+**Warm-up from last time:** if a lessons file (step 6) holds unresolved items more than a few days old, open with one as a spaced re-test before the new material.
 
-If the change set is large, **don't cover all of it** — pick the 3–5 most decision-rich areas.
+### 2. Build the answer key — then announce
 
-### 2. Turn it into an answer key — then announce the SO
+Draft (silently) one line per decision:
 
-Before asking anything, draft (silently) one line per decision you'll test:
+> **concept/term · the choice made · the alternatives rejected · the deciding tradeoff · what breaks if it's wrong**
 
-> **concept/term · the choice made · the alternatives rejected · the tradeoff that decided it · what breaks if it's wrong**
+That line is your grading key *and* it writes the question. Aim for **5–8 (never fewer than 5)**, ordered easy → hard — a default order, not a script (step 3 adapts it). If building the key surfaces a likely bug in your *own* implementation, flag it before starting rather than quizzing around it.
 
-That line *is* your grading key, and it writes the question for you — mostly *"why X over Y"*, not trivia. Aim for ~5–8, ordered easy → hard.
+Announce the SO in one line — **topics, not questions** — and start. If the user only has time for a couple, pick the highest-value tradeoff questions and skip the warm-ups.
 
-Then announce the SO in one line — name the **topics, not the questions** — and start:
+> Example (Dutch session): "📝 Onverwachtse SO over de rate limiter — algoritme, opslag, en gedrag bij uitval. Pen klaar? Vraag 1…"
 
-> "📝 Onverwachtse SO over de rate limiter — algoritme, opslag, en gedrag bij uitval. Pen klaar? Vraag 1…"
+### 3. Run the quiz — one question at a time, adapt live
 
-### 3. Run the quiz — one question at a time
+- Ask **ONE** question, then wait. Never reveal the answer in the question; no giveaway multiple-choice. Match the user's language.
+- **Mix the question types:** mostly *"why X over Y"*, plus at least one **transfer** ("same design, but now \<new constraint\> — what gives, and what would you reach for?") and one **prediction** ("predict where this breaks under \<stress\> — then I'll show you"). Recall only warms up.
+- **Read confidence** before grading: *"how sure — gut feeling, low / medium / high?"*
+- **Adapt the difficulty** (the drafted order is a default; aim for ~70% right):
+  - Two weak answers in a row → step **down**: scaffold ("forget the tradeoff — what does this do on each request?"), rebuild a win, then resume. An exam they're failing teaches nothing.
+  - Two sharp answers in a row → skip the warm-ups; jump to the hardest tradeoff or a transfer question.
+- **Stuck or done?** "I don't know" / "just tell me" → don't probe; answer plainly, mark it unanswered, move on. "Stop" → go straight to the scorecard for what's covered. A repeated wipeout (a beginner who didn't follow the build) → switch from exam to guided walk-through: explain, then ask.
 
-- Ask **ONE** question, then wait for the answer. Never reveal the answer inside the question, and don't offer multiple-choice options that give it away.
-- Open with an easy warm-up, then ramp toward the tradeoff questions that separate "followed the tutorial" from "actually gets it".
-- Conduct the quiz in the **user's language** (match the conversation).
+### 4. Grade each answer — honest, never about the person
 
-### 4. Grade each answer honestly
+- **Verdict** — correct / partial / missed. Don't soften a wrong answer into "sort of right" — but grade the *answer* ("that's not it"), never the learner ("you don't get this"). A miss is a useful **find**, not a failing; keep the SO framing warm.
+- **Make them generate first.** If the answer's incomplete, don't hand over the rest — nudge them to reach for it ("you've got the *what*; take a shot at the *why* — what would the alternative have cost?"). A reveal they struggled toward sticks; one they read doesn't.
+- **Then reveal the why** — the rejected alternatives and the deciding tradeoff (the payload). If they were *sure* and wrong, say so plainly ("you were confident — and it's the other way round; that's the one to burn in"). If *unsure* and right, tell them they know it better than they think.
+- **The key is a draft, not gospel.** Credit a different-but-sound answer. If they dispute a grade, re-check the actual code instead of defending the key — and own it if *you* (or your implementation) were wrong.
+- **Probe to the edge, then stop.** Close? Nudge until *they* close it (a couple of turns is fine). Lost? Give it cleanly and move on.
 
-After each answer:
-- **Verdict** — correct / partially / missed it. Don't soften a wrong answer into "sort of right"; honest grading is the whole point.
-- **Fill the gap** — state the correct, complete answer.
-- **Reveal the why** — name the alternatives you rejected and the tradeoff that decided it. *This is the payload:* the user walks away with the decision framework, not just a fact.
-- **Probe once** if the answer was shallow or surprisingly sharp — "…and when would that choice flip?"
+### 5. Scorecard — lead with the plan, not the grade
 
-Then move to the next question.
-
-### 5. Final scorecard
-
-Close the SO with:
-- A **score / overall verdict**.
-- **Strengths** — what they clearly understand.
-- **Gaps** — concepts or tradeoffs to revisit.
-- **Decisions to remember** — 1–3 tradeoffs worth carrying into future calls.
-
-### 6. Offer to save the lessons — ask, don't assume
-
-Don't write anything silently. After the scorecard, ask whether to keep the takeaways:
-
-> "Wil je deze lessen ergens bewaren voor de volgende keer? — Want me to save these takeaways somewhere so they stick?"
-
-Only if the user says **yes**, append a short, dated entry to a learnings file. Suggest a path and confirm it — an existing notes/lessons file if the project keeps one, otherwise `LEARNINGS.md` in the repo root. Save just the durable parts, in the user's language:
-- **Date · topic** of the SO.
-- **Tradeoffs to remember** — the decision frameworks, not the trivia.
+Close with, in this order:
+- **Decisions to remember** — 1–3 tradeoffs to carry into future calls.
 - **Gaps to revisit** — what to study next.
+- **Strengths** — what's solid.
 
-If they decline, save nothing.
+A score is optional and goes **last** — a snapshot ("solid on the *what*, shakier on failure modes"), never a grade on them. Always give the scorecard for whatever was actually answered, even a 2-question run.
+
+### 6. Offer to save the lessons — ask first
+
+Don't write anything silently. Ask: *"Want me to save these takeaways so they stick? — Zal ik deze lessen bewaren?"* Only on **yes**, append a dated, **re-testable** entry to an existing notes file (or `LEARNINGS.md`, or the working dir if there's no repo):
+
+> `- [ ] 2026-06-18 · rate limiter · Q: "Why token bucket over a sliding-window-log?" · A: the log stores a timestamp per request — memory grows with traffic`
+
+Storing the *question* (not just the note) lets a later SO re-test it (step 1). On no, save nothing.
 
 ## Question Design
 
 | Type | Weak (avoid) | Strong (use) |
 |------|--------------|--------------|
-| Recall | "What's a token bucket?" | Fine, but only as a warm-up |
-| Closed | "Did we use Redis?" (yes/no leaks the answer) | "Why store bucket state in Redis instead of in-process memory — and when would in-process be the better call?" |
-| Tradeoff | — | "We picked token bucket over a sliding-window-log. What does the log buy you, and why wasn't it worth it here?" |
-| Failure mode | — | "What happens to the limiter if Redis goes down — and was that an acceptable tradeoff to make?" |
-
-At least half the questions must be **"why X over Y"** tradeoff questions.
+| Recall | "What's a token bucket?" | Fine — but only as a warm-up |
+| Closed | "Did we use Redis?" (yes/no leaks the answer) | "Why store bucket state in Redis instead of in-process — and when would in-process win?" |
+| Tradeoff | — | "We picked token bucket over a sliding-window-log. What does the log buy you, and why wasn't it worth it?" |
+| Transfer | — | "Same limiter, but now per-tenant with 10k mostly-idle tenants. Does Redis-per-bucket still hold? What gives first?" |
+| Prediction | — | "Predict what happens under a retry storm — where does this bend, where does it break?" |
+| Failure mode | — | "If Redis goes down, what happens — and was that an acceptable tradeoff?" |
 
 ## Red Flags — STOP if you catch yourself
 
-- Listing several questions at once → ask **one** at a time.
-- Hinting the answer inside the question (yes/no phrasing, handing over options) → make the user produce it.
-- Grading a wrong answer as "kind of right" to be nice → be honest; calibration is the point.
-- Only asking "what is X" recall questions → at least half must be tradeoff questions.
-- Building the quiz from the diff alone → the *why* and the rejected alternatives live in the conversation, not the code. Mine it first.
-- Quizzing on code from outside this session/branch → stay in scope.
-- Quizzing in the wrong language → match the conversation.
-- Revealing the reasoning before the user has attempted the answer → wait for their shot first.
-- Writing a lessons/notes file the user didn't ask for → offer first; save only on a yes.
-
-## Common Mistakes
-
-- **No scorecard.** The takeaways are where the learning compounds — never skip step 5.
-- **Too hard, too fast.** Ramp difficulty; an unpassable exam teaches nothing.
-- **All recall, no tradeoffs.** Knowing the term ≠ understanding the decision. Test the decision.
+- Listing several questions at once → ask **one**, then wait.
+- Leaking the answer in the question (yes/no, handing over options), or revealing the why before they've attempted it → make them reach first.
+- Building the quiz off the diff alone, or falling back to recall because "no alternatives came up" → mine the conversation; widen scope until you have a real tradeoff.
+- Softening a wrong answer to be nice → honest verdict, warm frame; calibration is the point.
+- Grading the *person* instead of the *answer*, or stacking blunt "missed it"s → a miss is a find; keep it safe or they disengage.
+- Defending your answer key against a sound answer or a caught bug → the key is a draft; re-check and own it.
+- Force-marching a stuck or out-of-time user → offer a hint, the answer, or the scorecard.
+- Saving a lessons file unprompted, or quizzing in the wrong language → offer first; match the conversation.
