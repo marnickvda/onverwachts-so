@@ -2,6 +2,13 @@
 
 > *De onverwachtse SO* — the dreaded Dutch high-school "surprise written test" (*onverwachtse schriftelijke overhoring*), now for your code.
 
+<p align="center">
+  <a href="https://youtu.be/hFDZdXpgVP8?t=54">
+    <img src="https://img.youtube.com/vi/hFDZdXpgVP8/hqdefault.jpg" alt="The Rundfunk Onverwachts sketch this skill is named after" width="480">
+  </a>
+</p>
+<p align="center"><sub>▶︎ The <em>Rundfunk</em> "Onverwachts" sketch that inspired the name — opens on YouTube at 0:54.</sub></p>
+
 A portable **Agent Skill** that flips the roles. Normally the AI writes the code and you nod along. This skill makes the agent spring a **surprise pop quiz on you** about the work it just implemented — the concepts, the terms, and above all the **design tradeoffs** behind each decision.
 
 The goal isn't to make you feel bad. It's to find out whether you *actually* understand what was built and **why the chosen approach is the best one** — so you learn the tradeoffs and make sharper decisions next time.
