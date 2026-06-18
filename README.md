@@ -26,9 +26,9 @@ The skill is a single, standards-compliant [`SKILL.md`](skills/onverwachts-so/SK
 Uses the [`vercel-labs/skills`](https://github.com/vercel-labs/skills) CLI, which installs the skill into **every AI coding agent you have installed** (Claude Code, Cursor, opencode, Codex, GitHub Copilot, Gemini CLI, Windsurf, Cline, Zed, and 60+ more). It auto-detects your agents, writes one canonical copy to `~/.agents/skills/`, and symlinks each agent to it:
 
 ```bash
-npx skills add <your-github-username>/onverwachts-so          # install into all detected agents
-npx skills add <your-github-username>/onverwachts-so -a cursor -a claude-code   # pick specific agents
-npx skills use <your-github-username>/onverwachts-so | claude  # one-off, no install
+npx skills add marnickvda/onverwachts-so          # install into all detected agents
+npx skills add marnickvda/onverwachts-so -a cursor -a claude-code   # pick specific agents
+npx skills use marnickvda/onverwachts-so | claude  # one-off, no install
 ```
 
 ### Option B — Claude Code plugin
@@ -36,7 +36,7 @@ npx skills use <your-github-username>/onverwachts-so | claude  # one-off, no ins
 For the native Claude Code experience (`/onverwachts-so` command + auto-trigger):
 
 ```
-/plugin marketplace add <your-github-username>/onverwachts-so
+/plugin marketplace add marnickvda/onverwachts-so
 /plugin install onverwachts-so
 ```
 
@@ -47,7 +47,7 @@ Then restart Claude Code.
 No Node required. Clone the repo and run the bundled installer — it symlinks the skill into `~/.agents/skills/` (covers Cursor, opencode, Codex, Gemini CLI, Copilot CLI) and `~/.claude/skills/` (Claude Code):
 
 ```bash
-git clone https://github.com/<your-github-username>/onverwachts-so
+git clone https://github.com/marnickvda/onverwachts-so
 cd onverwachts-so
 ./install.sh                 # or: ./install.sh --copy   (Windows / no-symlink)
 ./install.sh --uninstall     # to remove
