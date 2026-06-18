@@ -81,6 +81,19 @@ Close the SO with:
 - **Gaps** — concepts or tradeoffs to revisit.
 - **Decisions to remember** — 1–3 tradeoffs worth carrying into future calls.
 
+### 6. Offer to save the lessons — ask, don't assume
+
+Don't write anything silently. After the scorecard, ask whether to keep the takeaways:
+
+> "Wil je deze lessen ergens bewaren voor de volgende keer? — Want me to save these takeaways somewhere so they stick?"
+
+Only if the user says **yes**, append a short, dated entry to a learnings file. Suggest a path and confirm it — an existing notes/lessons file if the project keeps one, otherwise `LEARNINGS.md` in the repo root. Save just the durable parts, in the user's language:
+- **Date · topic** of the SO.
+- **Tradeoffs to remember** — the decision frameworks, not the trivia.
+- **Gaps to revisit** — what to study next.
+
+If they decline, save nothing.
+
 ## Question Design
 
 | Type | Weak (avoid) | Strong (use) |
@@ -102,6 +115,7 @@ At least half the questions must be **"why X over Y"** tradeoff questions.
 - Quizzing on code from outside this session/branch → stay in scope.
 - Quizzing in the wrong language → match the conversation.
 - Revealing the reasoning before the user has attempted the answer → wait for their shot first.
+- Writing a lessons/notes file the user didn't ask for → offer first; save only on a yes.
 
 ## Common Mistakes
 

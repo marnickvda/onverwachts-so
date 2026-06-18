@@ -21,6 +21,7 @@ Run it after your agent builds something. It:
 2. **Asks one question at a time**, easy → hard, mostly *"why X over Y?"*
 3. **Grades you honestly**, then reveals the rejected alternatives and the tradeoff that decided it.
 4. **Ends with a scorecard**: strengths, gaps, and the tradeoffs worth remembering.
+5. **Offers to save** the takeaways (only if you say yes) so the lessons stick across sessions.
 
 Runs in your chat language — Dutch for an *echte SO*, or anything else.
 
