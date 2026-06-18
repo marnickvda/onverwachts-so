@@ -1,108 +1,65 @@
 # onverwachts-so 📝
 
-> *De onverwachtse SO* — the dreaded Dutch high-school "surprise written test" (*onverwachtse schriftelijke overhoring*), now for your code.
+> Your agent wrote it. You skimmed the diff, mumbled *"yeah, looks good,"* and merged it under your name.
+>
+> 🔔 **Laptops dicht, pak een blaadje** — *onverwachtse SO.* Let's see if you understood a single line of it.
 
 <p align="center">
   <a href="https://youtu.be/hFDZdXpgVP8?t=54">
     <img src="https://img.youtube.com/vi/hFDZdXpgVP8/hqdefault.jpg" alt="The Rundfunk Onverwachts sketch this skill is named after" width="480">
   </a>
 </p>
-<p align="center"><sub>▶︎ The <em>Rundfunk</em> "Onverwachts" sketch that inspired the name — opens on YouTube at 0:54.</sub></p>
+<p align="center"><sub>▶︎ The <em>Rundfunk</em> "Onverwachts" sketch that inspired the name — opens at 0:54.</sub></p>
 
-A portable **Agent Skill** that flips the roles. Normally the AI writes the code and you nod along. This skill makes the agent spring a **surprise pop quiz on you** about the work it just implemented — the concepts, the terms, and above all the **design tradeoffs** behind each decision.
-
-The goal isn't to make you feel bad. It's to find out whether you *actually* understand what was built and **why the chosen approach is the best one** — so you learn the tradeoffs and make sharper decisions next time.
+A portable **Agent Skill** named after the *onverwachtse schriftelijke overhoring* — the surprise test Dutch teachers spring to find out who actually did the reading. It flips the roles: after your agent implements something, it springs that exam on **you** — the concepts, the terms, and above all the **design tradeoffs** behind every choice. Not to humble you; to make sure you *own* the decisions and learn the tradeoffs for next time.
 
 ## How it works
 
-After the agent implements a feature, trigger the quiz. It will:
+Run it after your agent builds something. It:
 
-1. **Figure out what was just built** — from the current session, or the current git branch's diff.
-2. **Ask one question at a time**, ramping from an easy warm-up to the tradeoff questions that separate "followed the tutorial" from "actually gets it."
-3. **Grade your answer honestly**, then reveal the alternatives it rejected and *why* — the actual decision framework.
-4. **Finish with a scorecard**: your strengths, the gaps to revisit, and the tradeoffs worth remembering.
+1. **Scopes itself** to this session's work — or your current branch's diff.
+2. **Asks one question at a time**, easy → hard, mostly *"why X over Y?"*
+3. **Grades you honestly**, then reveals the rejected alternatives and the tradeoff that decided it.
+4. **Ends with a scorecard**: strengths, gaps, and the tradeoffs worth remembering.
 
-It runs in whatever language you're chatting in (Dutch for an *echte SO*, English, or anything else).
+Runs in your chat language — Dutch for an *echte SO*, or anything else.
 
 ## Install
 
-The skill is a single, standards-compliant [`SKILL.md`](skills/onverwachts-so/SKILL.md) (the [agentskills.io](https://agentskills.io) Agent Skills format), so it works across tools. Pick the install path that fits you:
+One `SKILL.md` in the [agentskills.io](https://agentskills.io) standard — three ways in:
 
-### Option A — Any agent, one command (recommended)
-
-Uses the [`vercel-labs/skills`](https://github.com/vercel-labs/skills) CLI, which installs the skill into **every AI coding agent you have installed** (Claude Code, Cursor, opencode, Codex, GitHub Copilot, Gemini CLI, Windsurf, Cline, Zed, and 60+ more). It auto-detects your agents, writes one canonical copy to `~/.agents/skills/`, and symlinks each agent to it:
+**Any agent, one command** — Claude Code, Cursor, opencode, Codex, Copilot, Gemini & 60+ more, via the [vercel `skills`](https://github.com/vercel-labs/skills) CLI:
 
 ```bash
-npx skills add marnickvda/onverwachts-so          # install into all detected agents
-npx skills add marnickvda/onverwachts-so -a cursor -a claude-code   # pick specific agents
-npx skills use marnickvda/onverwachts-so | claude  # one-off, no install
+npx skills add marnickvda/onverwachts-so
 ```
 
-### Option B — Claude Code plugin
-
-For the native Claude Code experience (`/onverwachts-so` command + auto-trigger):
+**Claude Code plugin** — also gives you the `/onverwachts-so` command:
 
 ```
 /plugin marketplace add marnickvda/onverwachts-so
 /plugin install onverwachts-so
 ```
 
-Then restart Claude Code.
-
-### Option C — Manual, zero dependencies
-
-No Node required. Clone the repo and run the bundled installer — it symlinks the skill into `~/.agents/skills/` (covers Cursor, opencode, Codex, Gemini CLI, Copilot CLI) and `~/.claude/skills/` (Claude Code):
+**Manual, no Node** — symlinks into `~/.agents/skills/` (every tool) + `~/.claude/skills/` (Claude Code):
 
 ```bash
 git clone https://github.com/marnickvda/onverwachts-so
-cd onverwachts-so
-./install.sh                 # or: ./install.sh --copy   (Windows / no-symlink)
-./install.sh --uninstall     # to remove
+./onverwachts-so/install.sh        # --copy on Windows · --uninstall to remove
 ```
 
-Or just copy `skills/onverwachts-so/` into any agent's skills directory yourself (see the table below).
+> Native skill support needs **Cursor ≥ 2.4** or **opencode ≥ 1.16**.
 
-## Where it lands & how to invoke it per tool
+## Trigger it
 
-| Tool | Reads from | Invoke |
-|------|-----------|--------|
-| **Claude Code** | plugin, or `~/.claude/skills/` | auto on "quiz me…", or `/onverwachts-so` |
-| **Cursor** (≥ 2.4) | `~/.agents/skills/` or `~/.cursor/skills/` | auto, or `/onverwachts-so` in Agent chat |
-| **opencode** (≥ 1.16) | `~/.agents/skills/` or `~/.config/opencode/skills/` | the `skill` tool / auto |
-| **Codex CLI** | `~/.agents/skills/` | auto on relevant request |
-| **Gemini CLI** | `~/.agents/skills/` or `~/.gemini/skills/` | auto |
-| **GitHub Copilot CLI** | `~/.agents/skills/` or `~/.claude/skills/` | auto (`/skills reload` to refresh) |
+- `/onverwachts-so` — or scope it: `/onverwachts-so the caching layer`
+- Or just ask: *"quiz me on what you built"* · *"overhoor me"*
 
-All of these read the **`~/.agents/skills/`** cross-runtime convention except Claude Code, which uses `~/.claude/skills/`. The two locations together cover every tool above — which is exactly what `install.sh` and the `skills` CLI set up.
+## Why bother
 
-## Usage
-
-After the agent has built something, trigger it any of these ways:
-
-- **Slash command** (Claude Code / Cursor): `/onverwachts-so`
-- **Scoped:** `/onverwachts-so the caching layer` (focus on a topic, file, or concept)
-- **Just ask:** "Quiz me on what you just built", "Overhoor me", "Test my understanding of this"
-
-## Why use it
-
-- **Catch shallow understanding** before it ships. If you can't explain why the alternative is worse, you don't yet own the decision.
-- **Learn tradeoffs, not trivia.** At least half the questions are "why X over Y," which is where real engineering judgment lives.
-- **Build better instincts.** The scorecard turns each session into a small, deliberate lesson.
-
-## Repo layout
-
-```
-onverwachts-so/
-├── skills/onverwachts-so/SKILL.md   # the portable skill — single source of truth
-├── commands/onverwachts-so.md       # /onverwachts-so command (Claude Code plugin)
-├── .claude-plugin/
-│   ├── plugin.json                  # Claude Code plugin manifest
-│   └── marketplace.json             # makes the repo /plugin-installable
-├── install.sh                       # zero-dependency cross-tool installer
-└── README.md · LICENSE
-```
-
-The same `skills/onverwachts-so/SKILL.md` is what the plugin loads, what `install.sh` links, and what `npx skills add` distributes — there is only ever one copy to maintain.
+- You don't own a decision you can't defend against the alternative.
+- Half the questions are *"why X over Y"* — where the real engineering judgment lives.
+- Every session turns into a small, deliberate lesson.
 
 ## License
 
