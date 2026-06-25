@@ -6,10 +6,10 @@
 
 <p align="center">
   <a href="https://youtu.be/hFDZdXpgVP8?t=54">
-    <img src="https://img.youtube.com/vi/hFDZdXpgVP8/hqdefault.jpg" alt="The Rundfunk Onverwachts sketch this skill is named after" width="480">
+    <img src="https://img.youtube.com/vi/hFDZdXpgVP8/hqdefault.jpg" alt="The Dutch Rundfunk Onverwachts SO sketch this skill is named after" width="480">
   </a>
 </p>
-<p align="center"><sub>▶︎ The <em>Rundfunk</em> "Onverwachts" sketch that inspired the name — opens at 0:54.</sub></p>
+<p align="center"><sub>▶︎ The Dutch <em>Rundfunk</em> "Onverwachts SO" sketch that inspired this skill — opens at 0:54.</sub></p>
 
 Building with AI agents, it's easy to skip the hard part — the **trade-offs** behind the design. This portable **Agent Skill** flips the roles: after your agent ships something, it springs a surprise oral exam on **you** — the concepts, the terms, and above all the design decisions behind every choice. Not to humble you; to sharpen your thinking and learn actively from the code your agent wrote.
 
