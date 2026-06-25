@@ -1,13 +1,13 @@
 ---
 name: pop-quiz
-description: Use when the user wants to be quizzed, tested, or "overhoord" on work that was just built for them. Triggers include "quiz me", "overhoor me", "test my understanding", "give me an SO", "do I actually get this", "pop quiz on what you built", "test me on this branch". Not for explaining or re-teaching the work — only when they want to be tested on it.
+description: Use when the user wants to be quizzed or tested on work that was just built for them. Triggers include "quiz me", "test my understanding", "do I actually get this", "pop quiz on what you built", "test me on this branch". Not for explaining or re-teaching the work — only when they want to be tested on it.
 ---
 
-# Pop Quiz (Onverwachtse SO)
+# Pop Quiz
 
 ## Overview
 
-After an agent builds something, this skill flips the roles: **the agent springs an oral exam on the user** about the work — the concepts, the terms, and above all the design tradeoffs behind each decision. Named after the dreaded Dutch *onverwachtse schriftelijke overhoring* (SO). The user asked for it, so the surprise isn't *that* there's an exam — it's **which decisions get probed, and how deep the "why" goes**.
+After an agent builds something, this skill flips the roles: **the agent springs an oral exam on the user** about the work — the concepts, the terms, and above all the design tradeoffs behind each decision. The user asked for it, so the surprise isn't *that* there's an exam — it's **which decisions get probed, and how deep the "why" goes**.
 
 **Core principle:** You don't understand a decision until you can explain why the rejected alternatives are worse. Target the **why**, not the **what**; grade the *answer*, never the person. The goal is sharper calls next time, not a humbling.
 
@@ -42,9 +42,9 @@ Draft (silently) one line per decision:
 
 That line is your grading key *and* it writes the question. Aim for **5–8 (never fewer than 5)**, ordered easy → hard — a default order, not a script (step 3 adapts it). If building the key surfaces a likely bug in your *own* implementation, flag it before starting.
 
-Announce the SO in one line — **topics, not questions** — and start. Short on time? Pick the highest-value tradeoff questions and skip the warm-ups.
+Announce the exam in one line — **topics, not questions** — and start. Short on time? Pick the highest-value tradeoff questions and skip the warm-ups.
 
-> Example (Dutch session): "📝 Onverwachtse SO over de rate limiter — algoritme, opslag, en gedrag bij uitval. Pen klaar? Vraag 1…"
+> Example: "📝 Pop quiz on the rate limiter — algorithm, storage, and behavior under failure. Pens down, paper out — question 1…"
 
 ### 3. Run the quiz — one question at a time, adapt live
 
@@ -74,11 +74,11 @@ A score is optional and goes **last** — a snapshot ("solid on the *what*, shak
 
 ### 6. Offer to save the lessons — ask first
 
-Don't write anything silently. Ask: *"Want me to save these takeaways so they stick? — Zal ik deze lessen bewaren?"* Only on **yes**, append a dated, **re-testable** entry to an existing notes file (or `LEARNINGS.md`, or the working dir if there's no repo):
+Don't write anything silently. Ask: *"Want me to save these takeaways so they stick?"* Only on **yes**, append a dated, **re-testable** entry to an existing notes file (or `LEARNINGS.md`, or the working dir if there's no repo):
 
 > `- [ ] 2026-06-18 · rate limiter · Q: "Why token bucket over a sliding-window-log?" · A: the log stores a timestamp per request — memory grows with traffic`
 
-Storing the *question* (not just the note) lets a later SO re-test it (step 1). On no, save nothing.
+Storing the *question* (not just the note) lets a later quiz re-test it (step 1). On no, save nothing.
 
 ## Question Design
 
